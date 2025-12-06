@@ -1,0 +1,86 @@
+name: Woozle-Web CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+env:
+  REGISTRY: registry.hub.docker.com/library
+  IMAGE_NAME: woozle-image
+  COMPARE_TAG: latest
+  NODE_VERSION: '24.3.0'
+  WEB_WORKING_DIRECTORY: ./woozle-web
+
+jobs:
+  audit_node_version_job:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-22.04
+    name: Audit Node Version
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Audit Node Version
+        run: npm run check-node-vulnerability
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+  audit_npm_packages_job:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-22.04
+    name: Audit NPM Packages
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+      - name: Audit NPM Packages
+        run: npm audit
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+  build_job:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-22.04
+    name: Build Job
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+      - name: Run Build
+        run: npm run build
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+      - name: Run Tests
+        run: npm run ci-test
+        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+    
