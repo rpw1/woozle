@@ -1,3 +1,4 @@
+using Woozle.API.Endpoints;
 using Woozle.API.Features;
 using Woozle.API.Spotify;
 
@@ -32,9 +33,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
-app.UseAuthorization();
 
-app.MapControllers();
 app.MapGet("/", () => "Health check was successful!");
+
+app.MapGroup("/api/spotify/content")
+	.MapSpotifyContentEndpoints();
+
+app.MapGroup("api/spotify/identity")
+	.MapSpotifyIdentityEndpoints();
 
 app.Run();
