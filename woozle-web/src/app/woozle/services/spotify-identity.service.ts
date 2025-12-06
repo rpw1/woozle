@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 export class SpotifyIdentityService {
   private readonly spotifyBaseUrl = 'https://accounts.spotify.com';
   private readonly httpClient = inject(HttpClient);
-  private get redirectUri() { return environment + '/auth/callback'; };
+  private get redirectUri() { return environment.baseUrl + '/auth/callback'; };
 
   async authorize(): Promise<boolean> {
     const scopes = [
