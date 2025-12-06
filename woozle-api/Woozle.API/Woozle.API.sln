@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woozle.API", "Woozle.API\Woozle.API.csproj", "{AB0790BA-6F11-46DF-BD86-5F5123A57935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woozle.API.Tests", "Woozle.API.Tests\Woozle.API.Tests.csproj", "{9B786BF6-05CC-4C79-AF5E-3D96A2244C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woozle.API.Spotify", "Woozle.API.Spotify\Woozle.API.Spotify.csproj", "{8B35B6F2-B452-488D-8C20-5ADEB3CC043B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woozle.API.Features", "Woozle.API.Features\Woozle.API.Features.csproj", "{6AB27519-E4B9-4C9C-B5DE-E104FA6402FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woozle.API.Common", "Woozle.API.Common\Woozle.API.Common.csproj", "{DB30ABC0-80E2-4817-9D3C-53530D866ADB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB0790BA-6F11-46DF-BD86-5F5123A57935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0790BA-6F11-46DF-BD86-5F5123A57935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0790BA-6F11-46DF-BD86-5F5123A57935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0790BA-6F11-46DF-BD86-5F5123A57935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B786BF6-05CC-4C79-AF5E-3D96A2244C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B786BF6-05CC-4C79-AF5E-3D96A2244C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B786BF6-05CC-4C79-AF5E-3D96A2244C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B786BF6-05CC-4C79-AF5E-3D96A2244C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B35B6F2-B452-488D-8C20-5ADEB3CC043B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B35B6F2-B452-488D-8C20-5ADEB3CC043B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B35B6F2-B452-488D-8C20-5ADEB3CC043B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B35B6F2-B452-488D-8C20-5ADEB3CC043B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB27519-E4B9-4C9C-B5DE-E104FA6402FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB27519-E4B9-4C9C-B5DE-E104FA6402FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB27519-E4B9-4C9C-B5DE-E104FA6402FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB27519-E4B9-4C9C-B5DE-E104FA6402FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB30ABC0-80E2-4817-9D3C-53530D866ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB30ABC0-80E2-4817-9D3C-53530D866ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB30ABC0-80E2-4817-9D3C-53530D866ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB30ABC0-80E2-4817-9D3C-53530D866ADB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7962D7B5-8276-43A1-8E56-CF7D62DC9DBB}
+	EndGlobalSection
+EndGlobal

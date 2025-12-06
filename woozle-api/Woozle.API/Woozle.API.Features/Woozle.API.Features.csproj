@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Woozle.API.Common\Woozle.API.Common.csproj" />
+    <ProjectReference Include="..\Woozle.API.Spotify\Woozle.API.Spotify.csproj" />
+  </ItemGroup>
+
+</Project>

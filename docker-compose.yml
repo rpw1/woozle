@@ -1,0 +1,35 @@
+services:
+  web:
+    container_name: "woozle-web-container"
+    build: ./woozle-web
+    ports:
+      - "8080:80"
+
+  server:
+    container_name: "woozle-server-container"
+    restart: unless-stopped
+    build: .
+    ports:
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+
+  # api:
+  #   container_name: "woozle-api-container"
+  #   restart: unless-stopped
+  #   build: ./woozle-api/Woozle.API
+  #   ports: 
+  #     - "8081:8081"
+
+  # database:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - "1433:1433"
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - SA_PASSWORD=secretpassword
+  #     - MSSQL_PID=Express
+  #   volumes:
+  #     - "./data/:/var/opt/mssql/data/"
+  #     - "./log/:/var/opt/mssql/log/"
+  #     - "./secrets/:/var/opt/mssql/secrets/"
