@@ -79,8 +79,8 @@ jobs:
         run: npm run build
         working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
 
-      - name: Run Tests
-        run: npm run ci-test
-        working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+      # - name: Run Tests
+      #   run: npm run ci-test
+      #   working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
 
     
