@@ -24,13 +24,13 @@ public static class SpotifyContentEndpoints
 
     public static async Task<IResult> GetContentAsync(ISpotifyContentService spotifyContentService, CancellationToken cancellationToken)
     {
-        var albumns = spotifyContentService.GetSavedAlbumsAsync(cancellationToken);
+        var albums = spotifyContentService.GetSavedAlbumsAsync(cancellationToken);
         var artists = spotifyContentService.GetFollowedArtistsAsync(cancellationToken);
         var playlists = spotifyContentService.GetUserPlaylistsAsync(cancellationToken);
 
         List<ContentModel> contents = [];
 
-        await foreach (var content in Task.WhenEach([albumns, artists, playlists]))
+        await foreach (var content in Task.WhenEach([albums, artists, playlists]))
         {
             contents.AddRange(await content);
         }
@@ -46,7 +46,7 @@ public static class SpotifyContentEndpoints
     {
         var tracks = contentType switch
         {
-            ContentType.Album => await spotifyContentService.GetAlbumnTracksAsync(id, cancellationToken),
+            ContentType.Album => await spotifyContentService.GetAlbumTracksAsync(id, cancellationToken),
             ContentType.Artist => await spotifyContentService.GetArtistTracksAsync(id, cancellationToken),
             ContentType.Playlist => await spotifyContentService.GetPlaylistTracksAsync(id, cancellationToken),
             _ => throw new NotImplementedException()

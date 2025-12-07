@@ -5,8 +5,6 @@ namespace Woozle.API.Spotify.Content.Models;
 
 public class SpotifySimplifiedAlbumModel : SpotifyBaseModel
 {
-	// Not a big fan of this solution. I need a new class or to have a private field to change this.
-	// Not crazy about either right now. Planning on cirlcing back later once I get a good idea of the flow of this work.
 	[JsonPropertyName("album_type")]
 	public required string AlbumTypeSetter { private get; set; }
 
@@ -15,7 +13,7 @@ public class SpotifySimplifiedAlbumModel : SpotifyBaseModel
 		"album" => SpotifyAlbumType.Album,
 		"single" => SpotifyAlbumType.Single,
 		"compilation" => SpotifyAlbumType.Compilation,
-		_ => throw new InvalidOperationException($"Albumn type {AlbumTypeSetter} is currently not defined for SpotifyAlbumType.")
+		_ => throw new InvalidOperationException($"Album type {AlbumTypeSetter} is currently not defined for SpotifyAlbumType.")
 	};
 
 	[JsonPropertyName("total_tracks")]

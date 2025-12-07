@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Woozle.API.Common.Extensions;
 
 namespace Woozle.API.Features;
 
