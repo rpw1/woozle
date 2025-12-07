@@ -87,9 +87,11 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
+        working-directory: ${{ env.API_WORKING_DIRECTORY }}
 
       - name: Build
         run: dotnet build --no-restore
+        working-directory: ${{ env.API_WORKING_DIRECTORY }}
 
       # - name: Run Tests
       #   run: npm run ci-test
