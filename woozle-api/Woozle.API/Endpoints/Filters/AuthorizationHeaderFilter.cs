@@ -1,5 +1,4 @@
 using Woozle.API.Common;
-using Woozle.API.Common.Extensions;
 
 namespace Woozle.API.Endpoints.Filters;
 

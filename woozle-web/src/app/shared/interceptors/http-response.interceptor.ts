@@ -2,9 +2,9 @@ import { HttpErrorResponse, HttpInterceptorFn, HttpStatusCode } from '@angular/c
 import { inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
-import { ToastService } from '../services/toast.service';
-import { SpotifyIdentityService } from '../../woozle/services/spotify-identity.service';
-import { ForbiddenErrorsService } from '../services/forbidden-error.service';
+import { ToastService } from '../toast/toast.service';
+import { SpotifyIdentityService } from '../authorization/spotify-identity.service';
+import { ForbiddenErrorsService } from '../forbidden/forbidden-error.service';
 
 export const httpResponseInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);

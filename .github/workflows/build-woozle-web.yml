@@ -15,6 +15,7 @@ env:
   COMPARE_TAG: latest
   NODE_VERSION: 24.11.1
   WEB_WORKING_DIRECTORY: ./woozle-web
+  API_WORKING_DIRECTORY: ./woozle-api
 
 jobs:
   audit_node_version_job:
@@ -22,12 +23,12 @@ jobs:
     runs-on: ubuntu-22.04
     name: Audit Node Version
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           submodules: true
           lfs: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -40,12 +41,12 @@ jobs:
     runs-on: ubuntu-22.04
     name: Audit NPM Packages
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           submodules: true
           lfs: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -62,12 +63,12 @@ jobs:
     runs-on: ubuntu-22.04
     name: Build Job
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           submodules: true
           lfs: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -78,6 +79,17 @@ jobs:
       - name: Run Build
         run: npm run build
         working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
 
       # - name: Run Tests
       #   run: npm run ci-test

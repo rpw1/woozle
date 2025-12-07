@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using Woozle.API.Spotify.Authorization;
 using Woozle.API.Spotify.Content.Api;
-using Woozle.API.Spotify.HttpMessageHandlers;
 using Woozle.API.Spotify.Identity.Api;
 
 namespace Woozle.API.Spotify;

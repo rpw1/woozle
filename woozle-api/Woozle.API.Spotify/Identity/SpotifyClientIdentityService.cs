@@ -3,29 +3,27 @@ using Woozle.API.Spotify.Identity.Api;
 
 namespace Woozle.API.Spotify.Identity;
 
-[ServiceRegistration(ServiceLifeTimeRegistrationType.Scoped)]
-public sealed class SpotifyClientIdentityService : ISpotifyClientIdentityService
+public interface ISpotifyClientIdentityService
 {
-	private readonly ISpotifyIdentityApi _spotifyIdentityApi;
-	private readonly SpotifySettings _spotifySettings;
+    Task<SpotifyAccessTokenResponseModel?> RequestSpotifyAccessTokenAsync(SpotifyAccessTokenRequestModel request, CancellationToken cancellationToken);
 
-	public SpotifyClientIdentityService(ISpotifyIdentityApi spotifyIdentityApi, 
-		IOptions<SpotifySettings> spotifySettings)
-	{
-		_spotifyIdentityApi = spotifyIdentityApi ?? throw new ArgumentNullException(nameof(spotifyIdentityApi));
-		_spotifySettings = spotifySettings.Value ?? throw new ArgumentNullException(nameof(spotifySettings));
-	}
+    Task<SpotifyAccessTokenResponseModel?> RequestSpotifyAccessTokenAsync(SpotifyRefreshTokenRequestModel request, CancellationToken cancellationToken);
+}
 
-	public async Task<SpotifyAccessTokenResponseModel?> RequestSpotifyAccessTokenAsync(SpotifyAccessTokenRequestModel request, CancellationToken cancellationToken)
+[ServiceRegistration(ServiceLifeTimeRegistrationType.Scoped)]
+public sealed class SpotifyClientIdentityService(ISpotifyIdentityApi spotifyIdentityApi,
+    IOptions<SpotifySettings> spotifySettings) : ISpotifyClientIdentityService
+{
+    public async Task<SpotifyAccessTokenResponseModel?> RequestSpotifyAccessTokenAsync(SpotifyAccessTokenRequestModel request, CancellationToken cancellationToken)
 	{
-		var response = await _spotifyIdentityApi.RequestAccessTokenAsync(_spotifySettings.ClientCredentialsAuthorization, request, cancellationToken);
+		var response = await spotifyIdentityApi.RequestAccessTokenAsync(spotifySettings.Value.ClientCredentialsAuthorization, request, cancellationToken);
 
 		return response.Content;
 	}
 
 	public async Task<SpotifyAccessTokenResponseModel?> RequestSpotifyAccessTokenAsync(SpotifyRefreshTokenRequestModel request, CancellationToken cancellationToken)
 	{
-		var response = await _spotifyIdentityApi.RefreshTokenAsync(_spotifySettings.ClientCredentialsAuthorization, request, cancellationToken);
+		var response = await spotifyIdentityApi.RefreshTokenAsync(spotifySettings.Value.ClientCredentialsAuthorization, request, cancellationToken);
 
 		return response.Content;
 	}

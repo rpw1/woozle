@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
-import { playerGuard } from './guards/player.guard';
-import { contentGuard } from './guards/content.guard';
-import { availableContentResolver } from './resolvers/available-content.resolver';
+import { playerGuard } from './game/player.guard';
+import { contentGuard } from './content/content.guard';
+import { availableContentResolver } from './content/available-content.resolver';
 
 export const woozleRoutes: Routes = [
   {
@@ -12,13 +12,13 @@ export const woozleRoutes: Routes = [
   {
     path: 'play',
     canActivate: [ contentGuard, playerGuard ],
-    loadComponent: () => import('./components/game/game.component')
+    loadComponent: () => import('./game/game/game.component')
       .then(x => x.GameComponent)
   },
   {
     path: 'content',
     resolve: { data: availableContentResolver },
-    loadComponent: () => import('./components/content-list/content-list.component')
+    loadComponent: () => import('./content/content-list/content-list.component')
       .then(x => x.ContentListComponent),
   },
 ]
