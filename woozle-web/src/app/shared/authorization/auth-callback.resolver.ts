@@ -13,12 +13,12 @@ export const authCallbackResolver: ResolveFn<RedirectCommand> = async (route, _)
     return new RedirectCommand(router.parseUrl('/forbidden'));
   }
 
-  const isAuthenticated = spotifyIdentityService.requestAccessToken(
-    route.queryParams['code']
-  );
+  const isAuthenticated = spotifyIdentityService.requestAccessToken(route.queryParams['code']);
 
   if (!isAuthenticated) {
-    forbiddenErrorsService.addErrors('Failed to authenticate. Please reach out to me personally to look into this further.');
+    forbiddenErrorsService.addErrors(
+      'Failed to authenticate. Please reach out to me personally to look into this further.',
+    );
     return new RedirectCommand(router.parseUrl('/forbidden'));
   }
 

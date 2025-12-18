@@ -1,4 +1,3 @@
-
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GuessType } from '../guess-type';
 import { GameStore } from '../game.state';
@@ -8,10 +7,9 @@ import { GameStore } from '../game.state';
   imports: [],
   templateUrl: './guess-list.component.html',
   styleUrls: ['./guess-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GuessListComponent {
-
   guessType = GuessType;
 
   private readonly gameStore = inject(GameStore);

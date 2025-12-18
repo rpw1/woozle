@@ -1,8 +1,7 @@
 <ul class="list-group mb-2 form-group">
-  @for(guess of guesses(); track guess.id) {
+  @for (guess of guesses(); track guess.id) {
     <li class="guessItem form-control p-2 mb-2" [class.disabled]="guess?.type === guessType.UNKNOWN">
-      {{guess?.song}}
+      {{ guess?.song }}
     </li>
   }
 </ul>
-

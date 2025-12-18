@@ -1,15 +1,11 @@
 import { computed, inject, Signal } from '@angular/core';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
-import { firstValueFrom } from 'rxjs';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { firstValueFrom, pipe, switchMap, tap } from 'rxjs';
 import { ContentService } from './content.service';
 import { Content } from './content';
 import { ContentType } from './content-type';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 
 export enum ContentFilterType {
   Ascending,
@@ -39,52 +35,53 @@ const initialState: ContentState = {
 export const ContentsStore = signalStore(
   withState(initialState),
   withComputed(({ contents, filters }) => ({
-    albums: computed(() =>
-      getAvailableContent(ContentType.Album, contents, filters)
-    ),
-    artists: computed(() =>
-      getAvailableContent(ContentType.Artist, contents, filters)
-    ),
-    playlists: computed(() =>
-      getAvailableContent(ContentType.Playlist, contents, filters)
-    ),
+    albums: computed(() => getAvailableContent(ContentType.Album, contents, filters)),
+    artists: computed(() => getAvailableContent(ContentType.Artist, contents, filters)),
+    playlists: computed(() => getAvailableContent(ContentType.Playlist, contents, filters)),
   })),
   withMethods((store, contentService = inject(ContentService)) => ({
-    async loadContent(): Promise<void> {
-      patchState(store, { isLoading: true });
-      const contents = await firstValueFrom(contentService.getContent());
-      patchState(store, { contents, isLoading: false });
-    },
+    loadContent: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true })),
+        switchMap(() =>
+          firstValueFrom(
+            contentService.getContent().pipe(
+              tapResponse({
+                next: contents => patchState(store, { contents, isLoading: false }),
+                error: () => patchState(store, { isLoading: false }),
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
     resetFilters(): void {
       patchState(store, () => ({ filters: { ...initialState.filters } }));
     },
     updateFilters(filters: ContentFilters): void {
       patchState(store, () => ({ filters: filters }));
     },
-  }))
+  })),
 );
 
 const getAvailableContent = (
   contentType: ContentType,
   contents: Signal<Content[]>,
-  filters: Signal<ContentFilters>
+  filters: Signal<ContentFilters>,
 ) => {
   const availableContents = contents().filter(
-    (content) =>
+    content =>
       content.name
         .toLowerCase()
         .trim()
-        .includes(filters().name?.toLowerCase().trim() ?? '') &&
-      content.contentType == contentType
+        .includes(filters().name?.toLowerCase().trim() ?? '') && content.contentType == contentType,
   );
 
   switch (filters().filterType) {
     case ContentFilterType.Ascending:
       return availableContents.sort((a, b) => a.name.localeCompare(b.name));
     case ContentFilterType.Descending:
-      return availableContents.sort(
-        (a, b) => a.name.localeCompare(b.name) * -1
-      );
+      return availableContents.sort((a, b) => a.name.localeCompare(b.name) * -1);
     default:
       return availableContents;
   }

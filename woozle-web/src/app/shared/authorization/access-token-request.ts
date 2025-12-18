@@ -1,4 +1,4 @@
 export interface AccessTokenRequest {
-  code: string,
-  redirectUri: string
+  code: string;
+  redirectUri: string;
 }

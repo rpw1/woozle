@@ -13,19 +13,14 @@ export class ContentService {
   private readonly httpClient = inject(HttpClient);
 
   getContent(): Observable<Content[]> {
-    return this.httpClient.get<Content[]>(
-      `${environment.woozleApiBaseUrl}/api/spotify/content`
-    );
+    return this.httpClient.get<Content[]>(`${environment.woozleApiBaseUrl}/api/spotify/content`);
   }
 
   getTracks(id: string, contentType: ContentType): Observable<Track[]> {
     let params = new HttpParams();
     params = params.append('contentType', contentType);
-    return this.httpClient.get<Track[]>(
-      `${environment.woozleApiBaseUrl}/api/spotify/content/${id}/tracks`,
-      {
-        params: params,
-      }
-    );
+    return this.httpClient.get<Track[]>(`${environment.woozleApiBaseUrl}/api/spotify/content/${id}/tracks`, {
+      params: params,
+    });
   }
 }

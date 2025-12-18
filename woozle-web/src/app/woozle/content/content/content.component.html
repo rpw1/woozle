@@ -1,12 +1,17 @@
 @let contentDetails = content();
-@if(contentDetails) {
+@if (contentDetails) {
   <div class="card">
-    <img [src]="contentDetails.image.url" [width]="contentDetails.image.width ?? 300"
-      [alt]="contentDetails.description ?? contentDetails.name" title="content image" class="img-thumbnail" />
+    <img
+      [src]="contentDetails.image.url"
+      [width]="contentDetails.image.width ?? 300"
+      [alt]="contentDetails.description ?? contentDetails.name"
+      title="content image"
+      class="img-thumbnail"
+    />
     <div class="card-body">
-      <h5 class="card-title">{{contentDetails.name}}</h5>
-      @if(contentDetails.description) {
-        <p class="card-text">{{contentDetails.description}}</p>
+      <h5 class="card-title">{{ contentDetails.name }}</h5>
+      @if (contentDetails.description) {
+        <p class="card-text">{{ contentDetails.description }}</p>
       }
       <button class="btn btn-primary" type="submit" (click)="this.selectedContent.emit(contentDetails)">
         Select Content
@@ -14,4 +19,3 @@
     </div>
   </div>
 }
-

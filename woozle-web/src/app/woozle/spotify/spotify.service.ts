@@ -19,22 +19,20 @@ export class SpotifyService {
         },
       })
       .pipe(
-        catchError((err) => {
+        catchError(err => {
           console.error(err);
           return EMPTY;
-        })
+        }),
       );
   }
 
   pausePlayer(): Observable<any> {
-    return this.httpClient
-      .put(`${SpotifyService.SPOTIFY_BASE_URL}/me/player/pause`, null)
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return EMPTY;
-        })
-      );
+    return this.httpClient.put(`${SpotifyService.SPOTIFY_BASE_URL}/me/player/pause`, null).pipe(
+      catchError(err => {
+        console.error(err);
+        return EMPTY;
+      }),
+    );
   }
 
   transferPlayback(deviceId: string): Observable<void> {
@@ -43,10 +41,10 @@ export class SpotifyService {
         device_ids: [deviceId],
       })
       .pipe(
-        catchError((err) => {
+        catchError(err => {
           console.error(err);
           return EMPTY;
-        })
+        }),
       );
   }
 }

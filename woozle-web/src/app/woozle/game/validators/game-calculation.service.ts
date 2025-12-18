@@ -4,11 +4,10 @@ import { Constants } from '../../../shared/utilities/constants';
 import { GameConstants } from '../game-constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameCalculationService {
-
-  private readonly validateGameConstants = inject(ValidateGameConstantsService)
+  private readonly validateGameConstants = inject(ValidateGameConstantsService);
   private readonly guessPercentageArray: number[];
 
   constructor() {
@@ -18,7 +17,7 @@ export class GameCalculationService {
     }
 
     this.guessPercentageArray = GameConstants.SECONDS_ARRAY.map((val: number) => {
-      return Constants.PERCENTAGE_CONVERSION * val / GameConstants.LISTEN_SECONDS;
+      return (Constants.PERCENTAGE_CONVERSION * val) / GameConstants.LISTEN_SECONDS;
     });
   }
 

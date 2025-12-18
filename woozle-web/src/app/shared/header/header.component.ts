@@ -7,13 +7,9 @@ import { NavItemType } from './nav-item-type';
 
 @Component({
   selector: 'app-header',
-  imports: [
-    RouterLink,
-    NgbNavModule,
-    AsyncPipe
-  ],
+  imports: [RouterLink, NgbNavModule, AsyncPipe],
   templateUrl: './header.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   private readonly router = inject(Router);
@@ -29,6 +25,6 @@ export class HeaderComponent {
         return NavItemType.Woozle;
       }
       return -1;
-    })
-  )
+    }),
+  );
 }

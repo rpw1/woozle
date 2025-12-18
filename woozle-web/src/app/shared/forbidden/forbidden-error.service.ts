@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ForbiddenErrorsService {
   private forbiddenErrors: string[] = [];
@@ -14,7 +14,7 @@ export class ForbiddenErrorsService {
     this.forbiddenErrorsSubject.next(this.forbiddenErrors);
   }
 
-  removeErrors(){
+  removeErrors() {
     this.forbiddenErrors = [];
     this.forbiddenErrorsSubject.next(this.forbiddenErrors);
   }

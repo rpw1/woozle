@@ -1,8 +1,8 @@
 export function deepClone(obj: any) {
   switch (typeof obj) {
-    case "object":
+    case 'object':
       return JSON.parse(JSON.stringify(obj));
-    case "undefined":
+    case 'undefined':
       return null;
     default:
       return obj;

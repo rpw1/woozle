@@ -7,12 +7,14 @@ import { RefreshTokenRequest } from './refresh-token-request';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SpotifyIdentityService {
   private readonly spotifyBaseUrl = 'https://accounts.spotify.com';
   private readonly httpClient = inject(HttpClient);
-  private get redirectUri() { return environment.baseUrl + '/auth/callback'; };
+  private get redirectUri() {
+    return environment.baseUrl + '/auth/callback';
+  }
 
   async authorize(): Promise<boolean> {
     const scopes = [
@@ -24,17 +26,17 @@ export class SpotifyIdentityService {
       'user-library-read',
       'streaming',
       'user-read-email',
-      'user-read-private'
-    ]
+      'user-read-private',
+    ];
     const scope = scopes.join(' ');
-    const authUrl = new URL(this.spotifyBaseUrl  + '/authorize');
+    const authUrl = new URL(this.spotifyBaseUrl + '/authorize');
 
-    const params =  {
+    const params = {
       response_type: 'code',
       client_id: environment.spotifyClientId,
       scope,
       redirect_uri: this.redirectUri,
-    }
+    };
 
     authUrl.search = new URLSearchParams(params).toString();
     window.location.href = authUrl.toString();
@@ -42,12 +44,17 @@ export class SpotifyIdentityService {
   }
 
   async refreshAccessToken(request: RefreshTokenRequest): Promise<boolean> {
-    const refreshAccessToken$ = this.httpClient.post<AccessTokenResponse>(`${environment.woozleApiBaseUrl}/api/spotify/identity/refreshToken`, request);
-    const response = await firstValueFrom(refreshAccessToken$, { defaultValue: undefined });
+    const refreshAccessToken$ = this.httpClient.post<AccessTokenResponse>(
+      `${environment.woozleApiBaseUrl}/api/spotify/identity/refreshToken`,
+      request,
+    );
+    const response = await firstValueFrom(refreshAccessToken$, {
+      defaultValue: undefined,
+    });
     if (!response) {
       return false;
     }
-  
+
     localStorage.setItem('access_token', response.accessToken);
     if (response.refreshToken) {
       localStorage.setItem('refresh_token', response.refreshToken);
@@ -59,16 +66,21 @@ export class SpotifyIdentityService {
   async requestAccessToken(code: string): Promise<boolean> {
     const request: AccessTokenRequest = {
       code: code,
-      redirectUri: this.redirectUri
-    }
+      redirectUri: this.redirectUri,
+    };
 
-    const requestAccessToken$ = this.httpClient.post<AccessTokenResponse>(`${environment.woozleApiBaseUrl}/api/spotify/identity/accessToken`, request);
-    const response = await firstValueFrom(requestAccessToken$, { defaultValue: undefined });
+    const requestAccessToken$ = this.httpClient.post<AccessTokenResponse>(
+      `${environment.woozleApiBaseUrl}/api/spotify/identity/accessToken`,
+      request,
+    );
+    const response = await firstValueFrom(requestAccessToken$, {
+      defaultValue: undefined,
+    });
 
     if (!response) {
       return false;
     }
-  
+
     localStorage.setItem('access_token', response.accessToken);
     if (response.refreshToken) {
       localStorage.setItem('refresh_token', response.refreshToken);
