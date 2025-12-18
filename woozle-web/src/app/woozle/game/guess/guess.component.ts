@@ -38,15 +38,15 @@ export class GuessComponent {
     input.pipe(
       debounceTime(250),
       distinctUntilChanged(),
-      map((search) => {
-        return this.tracksStore
+      map((search) => 
+        this.tracksStore
           .tracks()
           .map((track) => `${track.name} - ${track.artist}`)
           .filter((track) =>
             track.toLocaleLowerCase().includes(search.toLocaleLowerCase())
           )
-          .slice(0, 15);
-      })
+          .slice(0, 15)
+      )
     );
 
   readonly guessForm = this.formBuilder.group({

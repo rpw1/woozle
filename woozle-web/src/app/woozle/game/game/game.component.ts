@@ -27,10 +27,8 @@ import { ProgressBarComponent } from '../../progress-bar/progress-bar/progress-b
 })
 export class GameComponent implements OnInit, OnDestroy {
   private readonly gameStore = inject(GameStore);
-  private readonly playerService = inject(PlayerService);
-  private readonly tracksStore = inject(TracksStore);
-  readonly isPlayingMusic = this.playerService.isPlayingMusic;
-  readonly selectedContentName = this.tracksStore.contentName;
+  protected readonly playerService = inject(PlayerService);
+  protected readonly tracksStore = inject(TracksStore);
 
   ngOnInit(): void {
     this.gameStore.reset();

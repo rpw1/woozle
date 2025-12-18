@@ -6,10 +6,12 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, pipe, switchMap, tap } from 'rxjs';
 import { ContentService } from './content.service';
 import { Content } from './content';
 import { ContentType } from './content-type';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 
 export enum ContentFilterType {
   Ascending,
@@ -50,11 +52,18 @@ export const ContentsStore = signalStore(
     ),
   })),
   withMethods((store, contentService = inject(ContentService)) => ({
-    async loadContent(): Promise<void> {
-      patchState(store, { isLoading: true });
-      const contents = await firstValueFrom(contentService.getContent());
-      patchState(store, { contents, isLoading: false });
-    },
+    loadContent: rxMethod<void>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true })),
+        switchMap(() => firstValueFrom(contentService.getContent()
+          .pipe(
+            tapResponse({
+              next: (contents) => patchState(store, { contents, isLoading: false }),
+              error: () => patchState(store, { isLoading: false })
+  })
+          ))
+      )
+    )),
     resetFilters(): void {
       patchState(store, () => ({ filters: { ...initialState.filters } }));
     },

@@ -25,14 +25,10 @@ import { Content } from '../content';
 })
 export class ContentListComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly contentsStore = inject(ContentsStore);
+  protected readonly contentsStore = inject(ContentsStore);
   private readonly tracksStore = inject(TracksStore);
   private readonly router = inject(Router);
   private readonly solutionStateService = inject(SolutionStateService);
-  
-  readonly availableAlbums = this.contentsStore.albums;
-  readonly availableArtists = this.contentsStore.artists;
-  readonly availablePlaylists = this.contentsStore.playlists;
 
   readonly contentSearchForm = this.formBuilder.group({
     contentSearchInput: ['', [Validators.maxLength(500)]],
@@ -49,8 +45,8 @@ export class ContentListComponent {
     this.contentsStore.updateFilters(filters);
   }
 
-  async setContent(content: Content) {
-    await this.tracksStore.loadTracks(content);
+  setContent(content: Content) {
+    this.tracksStore.loadTracks(content);
     this.solutionStateService.setGameSolutions(this.tracksStore.randomTracks());
     void this.router.navigate(['/woozle/play']);
   }

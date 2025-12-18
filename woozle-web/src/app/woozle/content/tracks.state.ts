@@ -1,4 +1,5 @@
 import { computed, inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -6,11 +7,12 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { firstValueFrom } from 'rxjs';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { pipe, switchMap } from 'rxjs';
+import { Content } from './content';
+import { ContentType } from './content-type';
 import { ContentService } from './content.service';
 import { Track } from './track';
-import { ContentType } from './content-type';
-import { Content } from './content';
 
 export type TrackState = {
   tracks: Track[];
@@ -41,16 +43,23 @@ export const TracksStore = signalStore(
   })),
   withMethods((store, 
     contentService = inject(ContentService)) => ({
-    async loadTracks(content: Content): Promise<void> {
-      const tracks = await firstValueFrom(
-        contentService.getTracks(content.id, content.contentType)
-      );
-      patchState(store, {
-        tracks,
-        contentId: content.id,
-        contentType: content.contentType,
-        contentName: content.name,
-      });
-    },
+    loadTracks: rxMethod<Content>(
+      pipe(
+        switchMap((content) => 
+          contentService.getTracks(content.id, content.contentType).pipe(
+            tapResponse({
+              next: (tracks) => 
+                patchState(store, {
+                tracks,
+                contentId: content.id,
+                contentType: content.contentType,
+                contentName: content.name,
+              }),
+              error: console.error
+            })
+          )
+        )
+      )
+    )
   }))
 );
