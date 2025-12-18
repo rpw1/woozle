@@ -81,7 +81,7 @@ jobs:
         working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
 
       - name: Check Formatting
-        run: npn run prettier-check
+        run: npm run prettier-check
         working-directory: ${{ env.WEB_WORKING_DIRECTORY }}
 
       - name: Setup .NET
