@@ -1,12 +1,6 @@
 import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap } from 'rxjs';
 import { Content } from './content';
@@ -41,25 +35,24 @@ export const TracksStore = signalStore(
       return tracks();
     }),
   })),
-  withMethods((store, 
-    contentService = inject(ContentService)) => ({
+  withMethods((store, contentService = inject(ContentService)) => ({
     loadTracks: rxMethod<Content>(
       pipe(
-        switchMap((content) => 
+        switchMap(content =>
           contentService.getTracks(content.id, content.contentType).pipe(
             tapResponse({
-              next: (tracks) => 
+              next: tracks =>
                 patchState(store, {
-                tracks,
-                contentId: content.id,
-                contentType: content.contentType,
-                contentName: content.name,
-              }),
-              error: console.error
-            })
-          )
-        )
-      )
-    )
-  }))
+                  tracks,
+                  contentId: content.id,
+                  contentType: content.contentType,
+                  contentName: content.name,
+                }),
+              error: console.error,
+            }),
+          ),
+        ),
+      ),
+    ),
+  })),
 );

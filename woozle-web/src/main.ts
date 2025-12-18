@@ -1,9 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import {
-  enableProdMode,
-  isDevMode,
-  provideZonelessChangeDetection,
-} from '@angular/core';
+import { enableProdMode, isDevMode, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -21,13 +17,10 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideZonelessChangeDetection(),
     provideRouter(appRoutes),
-    provideHttpClient(withInterceptors([
-      spotifyAuthInterceptor, 
-      httpResponseInterceptor
-    ])),
+    provideHttpClient(withInterceptors([spotifyAuthInterceptor, httpResponseInterceptor])),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-}).catch((e) => console.error(e));
+}).catch(e => console.error(e));

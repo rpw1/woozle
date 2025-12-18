@@ -4,13 +4,13 @@ import { SpotifyService } from './spotify.service';
 import { ForbiddenErrorsService } from '../../shared/forbidden/forbidden-error.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayerService {
   private player: any | undefined;
   private spotifyService = inject(SpotifyService);
   private forbiddenErrorsService = inject(ForbiddenErrorsService);
-  
+
   private playerActiveSubject = new ReplaySubject<boolean>(1);
   playerActive$ = this.playerActiveSubject.asObservable();
 
@@ -28,12 +28,16 @@ export class PlayerService {
 
   async togglePlayerOn(trackUri: string): Promise<void> {
     this.setPlayerActiveElement();
-    await firstValueFrom(this.spotifyService.playPlayer(trackUri), { defaultValue: false });
+    await firstValueFrom(this.spotifyService.playPlayer(trackUri), {
+      defaultValue: false,
+    });
     this.isPlayingMusic.set(true);
   }
 
   async togglePlayerOff(): Promise<void> {
-    await firstValueFrom(this.spotifyService.pausePlayer(), { defaultValue: false });
+    await firstValueFrom(this.spotifyService.pausePlayer(), {
+      defaultValue: false,
+    });
     this.isPlayingMusic.set(false);
   }
 
@@ -44,36 +48,36 @@ export class PlayerService {
       getOAuthToken: (cb: any) => {
         cb(token);
       },
-      volume
+      volume,
     });
     this.player = player;
 
     player.addListener('initialization_error', ({ message }: { message: string }) => {
-      this.playerActiveSubject.next(false)
+      this.playerActiveSubject.next(false);
     });
 
     player.addListener('authentication_error', ({ message }: { message: string }) => {
       this.forbiddenErrorsService.addErrors(message);
-      this.playerActiveSubject.next(false)
+      this.playerActiveSubject.next(false);
     });
 
     player.addListener('account_error', ({ message }: { message: string }) => {
       this.forbiddenErrorsService.addErrors(`You account has to have Spotify Premium for playing music ${message}`);
-      this.playerActiveSubject.next(false)
+      this.playerActiveSubject.next(false);
     });
 
     player.addListener('playback_error', ({ message }: { message: string }) => {
       console.error(message);
-      this.playerActiveSubject.next(false)
+      this.playerActiveSubject.next(false);
     });
 
     player.addListener('ready', async ({ device_id }: { device_id: string }) => {
       await firstValueFrom(this.spotifyService.transferPlayback(device_id));
-      this.playerActiveSubject.next(true)
+      this.playerActiveSubject.next(true);
     });
 
     player.addListener('not_ready', ({ device_id }: { device_id: string }) => {
-      this.playerActiveSubject.next(false)
+      this.playerActiveSubject.next(false);
     });
 
     await player.connect();
@@ -91,7 +95,7 @@ export class PlayerService {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     (<any>window).onSpotifyWebPlaybackSDKReady = () => {};
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if ((<any>window).Spotify) {
         resolve((<any>window).Spotify);
       } else {

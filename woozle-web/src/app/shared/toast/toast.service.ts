@@ -4,7 +4,7 @@ import { Toast } from './toast';
 import { v4 } from 'uuid';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToastService {
   private toasts: Toast[] = [];
@@ -17,8 +17,8 @@ export class ToastService {
       id: v4(),
       message: message,
       classes: 'bg-success text-light',
-      delay: this.delay
-    }
+      delay: this.delay,
+    };
 
     this.toasts.push(toast);
     this.toastsSubject.next(this.toasts);
@@ -29,8 +29,8 @@ export class ToastService {
       id: v4(),
       message: message,
       classes: 'bg-danger text-light',
-      delay: this.delay
-    }
+      delay: this.delay,
+    };
 
     this.toasts.push(toast);
     this.toastsSubject.next(this.toasts);

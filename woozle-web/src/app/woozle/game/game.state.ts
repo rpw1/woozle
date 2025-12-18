@@ -1,10 +1,5 @@
 import { inject } from '@angular/core';
-import {
-  patchState,
-  signalStore,
-  withMethods,
-  withState
-} from '@ngrx/signals';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { v4 } from 'uuid';
 import { ProgressBarStateService } from '../progress-bar/progress-bar-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -29,12 +24,14 @@ const initialState: Game = {
 
 export const GameStore = signalStore(
   withState(initialState),
-  withMethods((store, 
-    progressBarStateService = inject(ProgressBarStateService), 
-    solutionStateService = inject(SolutionStateService),
-    modalService = inject(NgbModal),
-    playerService = inject(PlayerService)
-  ) => ({
+  withMethods(
+    (
+      store,
+      progressBarStateService = inject(ProgressBarStateService),
+      solutionStateService = inject(SolutionStateService),
+      modalService = inject(NgbModal),
+      playerService = inject(PlayerService),
+    ) => ({
       async addGuess(guess: Guess): Promise<void> {
         patchState(store, {
           guesses: [
@@ -69,7 +66,10 @@ export const GameStore = signalStore(
         await progressBarStateService.resetTasks();
       },
       async updateGameState(gameState: GameState): Promise<void> {
-        patchState(store, { currentGameState: gameState, numberOfGuesses: maximumGuesses });
+        patchState(store, {
+          currentGameState: gameState,
+          numberOfGuesses: maximumGuesses,
+        });
 
         if (store.currentGameState() === GameState.WON || store.currentGameState() === GameState.LOSS) {
           await this.playMusic();
@@ -83,6 +83,6 @@ export const GameStore = signalStore(
         solutionStateService.incrementSolution();
         await progressBarStateService.resetTasks();
       },
-    })
-  )
+    }),
+  ),
 );

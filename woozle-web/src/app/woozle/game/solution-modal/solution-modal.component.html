@@ -1,25 +1,28 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    @if(true) {
+    @if (true) {
       You Win
-    }
-    @else {
+    } @else {
       You Lose
     }
   </h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
 </div>
 <div class="modal-body">
-    <div class="mb-3">
-      @if(solution()) {
-        <img class="border border-dark mb-3 mx-auto d-block" [src]="solution().image.url"
-          alt="solution album" [width]="300" />
-        <hr>
-        <div class="ms-2">
-          <p class="fs-5">Artist: {{ solution().artist }}</p>
-          <!-- <p class="fs-5">Album: {{ solution?.album }}</p> -->
-          <p class="fs-5">Song: {{ solution().name }}</p>
-        </div>
-      }
-    </div>
+  <div class="mb-3">
+    @if (solution()) {
+      <img
+        class="border border-dark mb-3 mx-auto d-block"
+        [src]="solution().image.url"
+        alt="solution album"
+        [width]="300"
+      />
+      <hr />
+      <div class="ms-2">
+        <p class="fs-5">Artist: {{ solution().artist }}</p>
+        <!-- <p class="fs-5">Album: {{ solution?.album }}</p> -->
+        <p class="fs-5">Song: {{ solution().name }}</p>
+      </div>
+    }
+  </div>
 </div>

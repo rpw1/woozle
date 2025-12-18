@@ -1,11 +1,4 @@
-
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GameStore } from '../game.state';
 import { GuessListComponent } from '../guess-list/guess-list.component';
@@ -16,12 +9,7 @@ import { ProgressBarComponent } from '../../progress-bar/progress-bar/progress-b
 
 @Component({
   selector: 'app-game',
-  imports: [
-    GuessListComponent,
-    GuessComponent,
-    ProgressBarComponent,
-    RouterLink
-],
+  imports: [GuessListComponent, GuessComponent, ProgressBarComponent, RouterLink],
   templateUrl: './game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

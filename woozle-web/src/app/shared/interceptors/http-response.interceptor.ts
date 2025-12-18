@@ -14,7 +14,7 @@ export const httpResponseInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError(async (error, caught) => {
       if (error instanceof HttpErrorResponse) {
-        switch(error.status) {
+        switch (error.status) {
           case HttpStatusCode.Unauthorized:
             const refreshToken = localStorage.getItem('refresh_token');
             if (!refreshToken) {
@@ -40,6 +40,6 @@ export const httpResponseInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return error;
-    })
-  )
+    }),
+  );
 };

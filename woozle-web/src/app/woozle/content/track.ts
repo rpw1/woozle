@@ -5,6 +5,6 @@ export interface Track {
   explicit?: boolean;
   name: string;
   artist: string;
-  trackUri: string
+  trackUri: string;
   image: OnlineImage;
 }

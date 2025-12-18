@@ -7,7 +7,7 @@ import { ToastService } from './toast.service';
   selector: 'app-toast',
   standalone: true,
   imports: [NgbToast, AsyncPipe],
-  templateUrl: './toast.component.html'
+  templateUrl: './toast.component.html',
 })
 export class ToastComponent {
   private readonly toastService = inject(ToastService);

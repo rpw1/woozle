@@ -29,7 +29,7 @@ export const appRoutes: Routes = [
   {
     path: 'woozle',
     canActivateChild: [authGuard],
-    loadChildren: () => import('./woozle/woozle-routes').then((x) => x.woozleRoutes),
+    loadChildren: () => import('./woozle/woozle-routes').then(x => x.woozleRoutes),
     providers: [ContentsStore, TracksStore, GameStore],
-  }
+  },
 ];

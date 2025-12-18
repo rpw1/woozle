@@ -1,20 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  debounceTime,
-  defer,
-  distinctUntilChanged,
-  EMPTY,
-  map,
-  Observable,
-  startWith,
-} from 'rxjs';
+import { debounceTime, defer, distinctUntilChanged, EMPTY, map, Observable, startWith } from 'rxjs';
 import { v4 } from 'uuid';
 import { Guess } from '../guess';
 import { GuessType } from '../guess-type';
@@ -38,15 +26,13 @@ export class GuessComponent {
     input.pipe(
       debounceTime(250),
       distinctUntilChanged(),
-      map((search) => 
+      map(search =>
         this.tracksStore
           .tracks()
-          .map((track) => `${track.name} - ${track.artist}`)
-          .filter((track) =>
-            track.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-          )
-          .slice(0, 15)
-      )
+          .map(track => `${track.name} - ${track.artist}`)
+          .filter(track => track.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+          .slice(0, 15),
+      ),
     );
 
   readonly guessForm = this.formBuilder.group({
@@ -59,8 +45,8 @@ export class GuessComponent {
     () =>
       this.currentGuess?.statusChanges.pipe(
         startWith(this.currentGuess.status),
-        map((x) => x === 'INVALID')
-      ) ?? EMPTY
+        map(x => x === 'INVALID'),
+      ) ?? EMPTY,
   );
 
   submitGuess(guessType: GuessType): void {

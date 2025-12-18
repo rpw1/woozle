@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { map } from 'rxjs';
 import { GameStore } from '../../game/game.state';
 import { ProgressBarStateService } from '../progress-bar-state.service';
@@ -27,20 +22,19 @@ export class ProgressSegmentComponent {
   private readonly progressBarTimerService = inject(ProgressBarTimerService);
   readonly numberOfGuesses = this.gameStore.numberOfGuesses;
 
-  readonly progressWidth$ =
-    this.progressBarTimerService.progressBarSegmentPercentage$.pipe(
-      map((percent) => {
-        if (this.progressBarStateService.activeTaskStateSignal() === TaskStateType.RESET) {
-          return 0;
-        }
+  readonly progressWidth$ = this.progressBarTimerService.progressBarSegmentPercentage$.pipe(
+    map(percent => {
+      if (this.progressBarStateService.activeTaskStateSignal() === TaskStateType.RESET) {
+        return 0;
+      }
 
-        if (this.segmentIndex() === this.progressBarStateService.queueState().successiveTasksRan) {
-          return percent;
-        } else if (this.segmentIndex() < this.progressBarStateService.queueState().successiveTasksRan) {
-          return 100;
-        } else {
-          return 0;
-        }
-      })
-    );
+      if (this.segmentIndex() === this.progressBarStateService.queueState().successiveTasksRan) {
+        return percent;
+      } else if (this.segmentIndex() < this.progressBarStateService.queueState().successiveTasksRan) {
+        return 100;
+      } else {
+        return 0;
+      }
+    }),
+  );
 }

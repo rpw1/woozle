@@ -5,8 +5,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-welcome',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './welcome.component.html'
+  templateUrl: './welcome.component.html',
 })
-export class WelcomeComponent {
-
-}
+export class WelcomeComponent {}

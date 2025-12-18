@@ -1,24 +1,24 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop'
+import { toSignal } from '@angular/core/rxjs-interop';
 import { PlayerService } from '../spotify/player.service';
 import { SolutionStateService } from '../game/solution-state.service';
 import { TaskStateType } from './queue-state-type.model';
 
 interface ProgressBarQueue {
-  tasksInQueue: number,
-  successiveTasksRan: number
+  tasksInQueue: number;
+  successiveTasksRan: number;
 }
 
 const initialState: ProgressBarQueue = {
   tasksInQueue: 0,
-  successiveTasksRan: 0
-}
+  successiveTasksRan: 0,
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ProgressBarStateService { 
+export class ProgressBarStateService {
   private activeTaskStateSubject = new ReplaySubject<TaskStateType>(1);
   activeTaskState$ = this.activeTaskStateSubject.asObservable();
   activeTaskStateSignal = toSignal(this.activeTaskState$);
@@ -29,7 +29,10 @@ export class ProgressBarStateService {
   private solutionStateService = inject(SolutionStateService);
 
   async completeTask(): Promise<void> {
-    this.queueState.update(state => ({...state, successiveTasksRan: state.successiveTasksRan + 1}));
+    this.queueState.update(state => ({
+      ...state,
+      successiveTasksRan: state.successiveTasksRan + 1,
+    }));
     this.activeTaskStateSubject.next(TaskStateType.COMPLETED);
     if (this.queueState().tasksInQueue > 0) {
       this.startTask();
@@ -39,14 +42,17 @@ export class ProgressBarStateService {
   }
 
   async queueTasks(tasks: number): Promise<void> {
-    this.queueState.update(state => ({...state, tasksInQueue: state.tasksInQueue + tasks}));
+    this.queueState.update(state => ({
+      ...state,
+      tasksInQueue: state.tasksInQueue + tasks,
+    }));
     if (this.queueState().tasksInQueue === 0 || this.activeTaskStateSignal() === TaskStateType.RUNNING) {
       return;
     }
     await this.startTask();
   }
 
-  async resetTasks(): Promise<void>  {
+  async resetTasks(): Promise<void> {
     this.queueState.set({ ...initialState });
     this.activeTaskStateSubject.next(TaskStateType.RESET);
     if (this.playerService.isPlayingMusic()) {
@@ -58,7 +64,10 @@ export class ProgressBarStateService {
     if (!this.playerService.isPlayingMusic()) {
       await this.playerService.togglePlayerOn(this.solutionStateService.solution().trackUri);
     }
-    this.queueState.update(state => ({...state, tasksInQueue: state.tasksInQueue - 1}));
+    this.queueState.update(state => ({
+      ...state,
+      tasksInQueue: state.tasksInQueue - 1,
+    }));
     this.activeTaskStateSubject.next(TaskStateType.RUNNING);
   }
 }

@@ -1,17 +1,8 @@
-
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ContentFilters,
-  ContentFilterType,
-  ContentsStore,
-} from '../contents.state';
+import { ContentFilters, ContentFilterType, ContentsStore } from '../contents.state';
 import { TracksStore } from '../tracks.state';
 import { ContentComponent } from '../../content/content/content.component';
 import { SolutionStateService } from '../../game/solution-state.service';

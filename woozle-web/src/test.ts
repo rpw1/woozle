@@ -7,9 +7,6 @@ import { ngMocks } from 'ng-mocks';
 ngMocks.autoSpy('jasmine');
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
-  BrowserTestingModule,
-  platformBrowserTesting(), {
-    teardown: { destroyAfterEach: false }
-}
-);
+getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
+  teardown: { destroyAfterEach: false },
+});

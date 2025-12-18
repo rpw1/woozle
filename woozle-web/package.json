@@ -8,7 +8,9 @@
     "ng": "ng",
     "start": "ng serve -o --host=localhost --configuration development",
     "build": "ng build",
-    "check-node-vulnerability": "npx is-my-node-vulnerable"
+    "check-node-vulnerability": "npx is-my-node-vulnerable",
+    "prettier:check": "npx prettier \"src/**/*.{ts,html,scss}\" --check",
+    "prettier:write": "npx prettier \"src/**/*.{ts,html,scss}\" --write"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +26,6 @@
     "@ngrx/operators": "^20.0.1",
     "@ngrx/signals": "^20.0.1",
     "bootstrap": "^5.3.8",
-    "prettier": "^3.7.4",
     "rxjs": "^7.8.2",
     "uuid": "^9.0.1"
   },
@@ -39,6 +40,7 @@
     "@types/spotify-web-playback-sdk": "^0.1.19",
     "@types/uuid": "^9.0.8",
     "is-my-node-vulnerable": "^1.6.1",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.2"
   }
 }

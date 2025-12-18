@@ -1,6 +1,6 @@
 <h3>Forbidden</h3>
 <p>You are forbid from accessing that page</p>
 <h4>Errors</h4>
-@for(error of (forbiddenErrors$ | async); track error) {
+@for (error of forbiddenErrors$ | async; track error) {
   <p>error</p>
 }
