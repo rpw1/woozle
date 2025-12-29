@@ -1,5 +1,5 @@
 import { computed, inject, Signal } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
 import { firstValueFrom, pipe, switchMap, tap } from 'rxjs';
 import { ContentService } from './content.service';
 import { Content } from './content';
@@ -39,13 +39,16 @@ export const ContentsStore = signalStore(
     artists: computed(() => getAvailableContent(ContentType.Artist, contents, filters)),
     playlists: computed(() => getAvailableContent(ContentType.Playlist, contents, filters)),
   })),
-  withMethods((store, contentService = inject(ContentService)) => ({
+  withProps(() => ({
+    contentService: inject(ContentService)
+  })),
+  withMethods((store) => ({
     loadContent: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         switchMap(() =>
           firstValueFrom(
-            contentService.getContent().pipe(
+            store.contentService.getContent().pipe(
               tapResponse({
                 next: contents => patchState(store, { contents, isLoading: false }),
                 error: () => patchState(store, { isLoading: false }),
