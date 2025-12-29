@@ -9,8 +9,8 @@
     "start": "ng serve -o --host=localhost --configuration development",
     "build": "ng build",
     "check-node-vulnerability": "npx is-my-node-vulnerable",
-    "prettier:check": "npx prettier \"src/**/*.{ts,html,scss}\" --check",
-    "prettier:write": "npx prettier \"src/**/*.{ts,html,scss}\" --write"
+    "prettier-check": "npx prettier \"src/**/*.{ts,html,scss}\" --check",
+    "prettier-write": "npx prettier \"src/**/*.{ts,html,scss}\" --write"
   },
   "private": true,
   "dependencies": {
