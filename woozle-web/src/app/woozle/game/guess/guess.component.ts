@@ -34,10 +34,10 @@ export class GuessComponent {
     );
 
   private guessModel = signal({
-    currentGuess: ''
+    currentGuess: '',
   });
 
-  protected readonly guessForm = form(this.guessModel, (schemaPath) => {
+  protected readonly guessForm = form(this.guessModel, schemaPath => {
     required(schemaPath.currentGuess, { message: 'Guess is required' });
     maxLength(schemaPath.currentGuess, 500, { message: 'Guess must be less than 500 characters.' });
   });
@@ -59,7 +59,7 @@ export class GuessComponent {
     }
     this.gameStore.addGuess(guess);
     this.guessModel.set({
-      currentGuess: ''
+      currentGuess: '',
     });
   }
 }
