@@ -4,6 +4,7 @@ ssl/
 *.pem
 *.crt
 appsettings.*.json
+environment.local.ts
 
 # Compiled output
 woozle-web/dist

@@ -1,7 +1,6 @@
 import { HttpContextToken, HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { SpotifyService } from '../../woozle/spotify/spotify.service';
 import { environment } from '../../../environments/environment';
+import { SpotifyService } from '../../woozle/spotify/spotify.service';
 
 export const RequiresAuthorization = new HttpContextToken<boolean>(() => true);
 
