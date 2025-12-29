@@ -16,11 +16,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
