@@ -1,0 +1,23 @@
+meta {
+  name: Get Access Token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BaseUrl}}/spotify/identity/accessToken
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "code": "AQBIo06MbfHC2bNk1acv3zSI1lRAoeBhEF21DJM9tAYXJOkuTUP0YRIMjVYWVa3YpE5_iwOFLwQbBk7KLH1C6dsY5AE2pbZREQ2uoq8VCEilZ1cmQZjmTP-Qgksn0feAxDP04XiS9qCrq52Oxs7FM0O93u9yS1Ax3_zG_B_bLPizsJjkYobpAux_u-w9zaqKxo8ydXnP9VaK0oyxDjBC5ax2e0q7qjF900QTEF7Xr-nPxR8Fuh0kB4E3I8zcRRL-uwsNuwIuBkrgUAq2RTZ3lci9SMZf-TIoGriW4q3q6X4MK32hImwZyWJ-VKJOtT1UuwNG3GTrF3-r5LPMz-3M4Cd6LJDX1gMzl6zCBw15_xcdthCZgnk5r5HAyQrcAG-STG627JDF4FUEmo_rs49KPfklgcHIaGmzxftzd1DJ4db8LxQv9w",
+    "redirectUri": "http://127.0.0.1:4200/auth/callback"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
