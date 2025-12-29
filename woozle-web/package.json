@@ -30,8 +30,6 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^20.3.2",
-    "@angular-devkit/schematics": "^20.3.2",
     "@angular/build": "^20.3.2",
     "@angular/cli": "^20.3.2",
     "@angular/compiler-cli": "^20.3.1",
