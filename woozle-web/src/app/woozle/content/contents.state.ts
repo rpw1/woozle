@@ -40,9 +40,9 @@ export const ContentsStore = signalStore(
     playlists: computed(() => getAvailableContent(ContentType.Playlist, contents, filters)),
   })),
   withProps(() => ({
-    contentService: inject(ContentService)
+    contentService: inject(ContentService),
   })),
-  withMethods((store) => ({
+  withMethods(store => ({
     loadContent: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),

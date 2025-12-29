@@ -36,9 +36,9 @@ export const TracksStore = signalStore(
     }),
   })),
   withProps(() => ({
-    contentService: inject(ContentService)
+    contentService: inject(ContentService),
   })),
-  withMethods((store) => ({
+  withMethods(store => ({
     loadTracks: rxMethod<Content>(
       pipe(
         switchMap(content =>

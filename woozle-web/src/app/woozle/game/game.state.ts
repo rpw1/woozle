@@ -30,61 +30,57 @@ export const GameStore = signalStore(
     modalService: inject(NgbModal),
     playerService: inject(PlayerService),
   })),
-  withMethods(
-    (
-      store,
-    ) => ({
-      async addGuess(guess: Guess): Promise<void> {
-        patchState(store, {
-          guesses: [
-            ...store.guesses().slice(0, store.numberOfGuesses()),
-            guess,
-            ...store.guesses().slice(store.numberOfGuesses() + 1),
-          ],
-          numberOfGuesses: store.numberOfGuesses() + 1,
-        });
+  withMethods(store => ({
+    async addGuess(guess: Guess): Promise<void> {
+      patchState(store, {
+        guesses: [
+          ...store.guesses().slice(0, store.numberOfGuesses()),
+          guess,
+          ...store.guesses().slice(store.numberOfGuesses() + 1),
+        ],
+        numberOfGuesses: store.numberOfGuesses() + 1,
+      });
 
-        if (guess.song?.toLocaleLowerCase() === store.solutionStateService.solutionName()) {
-          await this.updateGameState(GameState.WON);
-          return;
-        }
+      if (guess.song?.toLocaleLowerCase() === store.solutionStateService.solutionName()) {
+        await this.updateGameState(GameState.WON);
+        return;
+      }
 
-        if (store.numberOfGuesses() >= maximumGuesses) {
-          await this.updateGameState(GameState.LOSS);
-          return;
-        }
+      if (store.numberOfGuesses() >= maximumGuesses) {
+        await this.updateGameState(GameState.LOSS);
+        return;
+      }
 
+      await this.playMusic();
+    },
+    async playMusic() {
+      if (store.playerService.isPlayingMusic()) {
+        await store.progressBarStateService.queueTasks(1);
+        return;
+      }
+
+      await store.progressBarStateService.queueTasks(store.numberOfGuesses() + 1);
+    },
+    async pauseMusic() {
+      await store.progressBarStateService.resetTasks();
+    },
+    async updateGameState(gameState: GameState): Promise<void> {
+      patchState(store, {
+        currentGameState: gameState,
+        numberOfGuesses: maximumGuesses,
+      });
+
+      if (store.currentGameState() === GameState.WON || store.currentGameState() === GameState.LOSS) {
         await this.playMusic();
-      },
-      async playMusic() {
-        if (store.playerService.isPlayingMusic()) {
-          await store.progressBarStateService.queueTasks(1);
-          return;
-        }
-
-        await store.progressBarStateService.queueTasks(store.numberOfGuesses() + 1);
-      },
-      async pauseMusic() {
-        await store.progressBarStateService.resetTasks();
-      },
-      async updateGameState(gameState: GameState): Promise<void> {
-        patchState(store, {
-          currentGameState: gameState,
-          numberOfGuesses: maximumGuesses,
-        });
-
-        if (store.currentGameState() === GameState.WON || store.currentGameState() === GameState.LOSS) {
-          await this.playMusic();
-          const modalRef = store.modalService.open(SolutionModalComponent);
-          await modalRef.result;
-          await this.reset();
-        }
-      },
-      async reset(): Promise<void> {
-        patchState(store, { ...initialState });
-        store.solutionStateService.incrementSolution();
-        await store.progressBarStateService.resetTasks();
-      },
-    }),
-  ),
+        const modalRef = store.modalService.open(SolutionModalComponent);
+        await modalRef.result;
+        await this.reset();
+      }
+    },
+    async reset(): Promise<void> {
+      patchState(store, { ...initialState });
+      store.solutionStateService.incrementSolution();
+      await store.progressBarStateService.resetTasks();
+    },
+  })),
 );
