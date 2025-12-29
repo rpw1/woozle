@@ -1,18 +1,20 @@
-<form [formGroup]="guessForm" (ngSubmit)="submitGuess(GuessType.GUESS)">
+<form (submit)="submitGuess(GuessType.GUESS)">
   <div class="form-group mb-2">
     <input
       id="guessInput"
       type="text"
-      formControlName="currentGuess"
+      [field]="guessForm.currentGuess"
       class="form-control"
       placeholder="Enter song"
       [ngbTypeahead]="search"
     />
-    <div class="invalid-feedback ms-3 d-block">
-      @if (currentGuess?.hasError('maxlength')) {
-        <p>*Current guess too long.</p>
+    @if (guessForm.currentGuess().touched()) {
+      @for (error of guessForm.currentGuess().errors(); track error.kind) {
+        <div class="invalid-feedback ms-3 d-block">
+          <p>{{ error.message }}</p>
+        </div>
       }
-    </div>
+    }
   </div>
   <div class="mb-2">
     <div class="row">
@@ -21,9 +23,9 @@
       </div>
       <div class="col text-center">
         <button
-          type="button"
+          type="type"
           class="btn btn-success p-2 m-3 w-50"
-          [disabled]="isCurrentGuessInvalid$ | async"
+          [disabled]="guessForm.currentGuess().invalid()"
           (click)="submitGuess(GuessType.GUESS)"
         >
           Guess

@@ -1,24 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Field, form, maxLength, required } from '@angular/forms/signals';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime, defer, distinctUntilChanged, EMPTY, map, Observable, startWith } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
 import { v4 } from 'uuid';
+import { TracksStore } from '../../content/tracks.state';
+import { GameStore } from '../game.state';
 import { Guess } from '../guess';
 import { GuessType } from '../guess-type';
-import { GameStore } from '../game.state';
-import { TracksStore } from '../../content/tracks.state';
 
 @Component({
   selector: 'app-guess',
-  imports: [ReactiveFormsModule, CommonModule, NgbTypeaheadModule],
+  imports: [NgbTypeaheadModule, Field],
   templateUrl: './guess.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GuessComponent {
   private readonly gameStore = inject(GameStore);
   private readonly tracksStore = inject(TracksStore);
-  private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly SKIP_GUESS_TEXT = 'SKIPPED';
   readonly GuessType = GuessType;
 
@@ -35,19 +33,14 @@ export class GuessComponent {
       ),
     );
 
-  readonly guessForm = this.formBuilder.group({
-    currentGuess: ['', [Validators.required, Validators.maxLength(500)]],
+  private guessModel = signal({
+    currentGuess: '',
   });
-  get currentGuess() {
-    return this.guessForm.get('currentGuess');
-  }
-  isCurrentGuessInvalid$ = defer(
-    () =>
-      this.currentGuess?.statusChanges.pipe(
-        startWith(this.currentGuess.status),
-        map(x => x === 'INVALID'),
-      ) ?? EMPTY,
-  );
+
+  protected readonly guessForm = form(this.guessModel, schemaPath => {
+    required(schemaPath.currentGuess, { message: 'Guess is required' });
+    maxLength(schemaPath.currentGuess, 500, { message: 'Guess must be less than 500 characters.' });
+  });
 
   submitGuess(guessType: GuessType): void {
     let guess: Guess;
@@ -61,10 +54,12 @@ export class GuessComponent {
       guess = {
         id: v4(),
         type: GuessType.GUESS,
-        song: this.currentGuess?.value.trim(),
+        song: this.guessForm.currentGuess().value().trim(),
       };
     }
     this.gameStore.addGuess(guess);
-    this.guessForm.reset();
+    this.guessModel.set({
+      currentGuess: '',
+    });
   }
 }
